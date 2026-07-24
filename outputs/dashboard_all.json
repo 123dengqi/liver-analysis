@@ -1,0 +1,437 @@
+{
+  "meta": {
+    "strategy": "all",
+    "strategies": {
+      "first": "首次住院记录",
+      "latest": "末次住院记录",
+      "all": "全部住院记录"
+    },
+    "polypharmacy_definition": "出院药物种类≥5",
+    "malnutrition_definition": "RFH-NPT≥2",
+    "severity_measure": "MELD-Na评分",
+    "analysis_unit_note": "首次/末次策略每位患者仅保留一条记录；全部记录仅用于敏感性分析。"
+  },
+  "summary": {
+    "n": 883,
+    "unique_patients": 646,
+    "polypharmacy_n": 533,
+    "polypharmacy_pct": 60.4,
+    "malnutrition_n": 451,
+    "malnutrition_pct": 51.1,
+    "medication_median": 5.0,
+    "meld_na_median": 8.6,
+    "complete_case_n": 842
+  },
+  "age_groups": {
+    "rows": [
+      {
+        "age_group": "<50",
+        "n": 96,
+        "medication_median": 4.0,
+        "polypharmacy_pct": 44.8,
+        "malnutrition_pct": 42.7
+      },
+      {
+        "age_group": "50-59",
+        "n": 206,
+        "medication_median": 5.0,
+        "polypharmacy_pct": 59.7,
+        "malnutrition_pct": 51.5
+      },
+      {
+        "age_group": "60-69",
+        "n": 359,
+        "medication_median": 5.0,
+        "polypharmacy_pct": 60.2,
+        "malnutrition_pct": 50.1
+      },
+      {
+        "age_group": "≥70",
+        "n": 222,
+        "medication_median": 6.0,
+        "polypharmacy_pct": 68.0,
+        "malnutrition_pct": 55.9
+      }
+    ],
+    "p_values": {
+      "medications": "<0.001",
+      "polypharmacy": "0.002",
+      "malnutrition": "0.183"
+    }
+  },
+  "polypharmacy_table": [
+    {
+      "variable": "年龄，岁",
+      "overall": "64.0 (57.0-70.0)",
+      "group0": "63.0 (54.2-68.0)",
+      "group1": "65.0 (57.0-71.0)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "<0.001"
+    },
+    {
+      "variable": "男性",
+      "overall": "417 (47.2%)",
+      "group0": "181 (51.7%)",
+      "group1": "236 (44.3%)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "0.030"
+    },
+    {
+      "variable": "BMI，kg/m²",
+      "overall": "23.7 (20.9-27.1)",
+      "group0": "24.2 (21.5-27.3)",
+      "group1": "23.4 (20.6-27.0)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "0.009"
+    },
+    {
+      "variable": "用药数量，种",
+      "overall": "5.0 (4.0-7.0)",
+      "group0": "3.0 (2.0-4.0)",
+      "group1": "6.0 (5.0-8.0)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "<0.001"
+    },
+    {
+      "variable": "多重用药（≥5种）",
+      "overall": "533 (60.4%)",
+      "group0": "0 (0.0%)",
+      "group1": "533 (100.0%)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "<0.001"
+    },
+    {
+      "variable": "RFH-NPT评分",
+      "overall": "2.0 (0.0-6.0)",
+      "group0": "1.0 (0.0-5.0)",
+      "group1": "2.0 (1.0-6.0)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "<0.001"
+    },
+    {
+      "variable": "高营养不良风险（RFH-NPT≥2）",
+      "overall": "451 (51.1%)",
+      "group0": "159 (45.4%)",
+      "group1": "292 (54.8%)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "0.007"
+    },
+    {
+      "variable": "MELD-Na评分",
+      "overall": "8.6 (5.1-11.6)",
+      "group0": "8.1 (3.8-10.4)",
+      "group1": "9.1 (6.4-12.6)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "<0.001"
+    },
+    {
+      "variable": "白蛋白，g/L",
+      "overall": "30.0 (26.0-33.0)",
+      "group0": "32.0 (28.0-35.0)",
+      "group1": "28.0 (25.0-32.0)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "<0.001"
+    },
+    {
+      "variable": "血红蛋白，g/L",
+      "overall": "89.0 (70.0-108.0)",
+      "group0": "87.5 (70.2-111.0)",
+      "group1": "90.0 (70.0-106.0)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "0.468"
+    },
+    {
+      "variable": "住院天数",
+      "overall": "11.0 (7.0-14.0)",
+      "group0": "9.0 (7.0-13.0)",
+      "group1": "12.0 (8.0-15.0)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "<0.001"
+    },
+    {
+      "variable": "病毒性病因",
+      "overall": "162 (18.3%)",
+      "group0": "79 (22.6%)",
+      "group1": "83 (15.6%)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "0.009"
+    },
+    {
+      "variable": "酒精性病因",
+      "overall": "174 (19.7%)",
+      "group0": "70 (20.0%)",
+      "group1": "104 (19.5%)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "0.859"
+    }
+  ],
+  "malnutrition_table": [
+    {
+      "variable": "年龄，岁",
+      "overall": "64.0 (57.0-70.0)",
+      "group0": "63.0 (55.0-69.0)",
+      "group1": "65.0 (57.0-70.0)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "0.012"
+    },
+    {
+      "variable": "男性",
+      "overall": "417 (47.2%)",
+      "group0": "156 (36.1%)",
+      "group1": "261 (57.9%)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "<0.001"
+    },
+    {
+      "variable": "BMI，kg/m²",
+      "overall": "23.7 (20.9-27.1)",
+      "group0": "23.7 (21.3-27.1)",
+      "group1": "23.7 (20.6-27.1)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "0.250"
+    },
+    {
+      "variable": "用药数量，种",
+      "overall": "5.0 (4.0-7.0)",
+      "group0": "5.0 (3.0-6.0)",
+      "group1": "5.0 (4.0-7.0)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "<0.001"
+    },
+    {
+      "variable": "多重用药（≥5种）",
+      "overall": "533 (60.4%)",
+      "group0": "241 (55.8%)",
+      "group1": "292 (64.7%)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "0.007"
+    },
+    {
+      "variable": "RFH-NPT评分",
+      "overall": "2.0 (0.0-6.0)",
+      "group0": "0.0 (0.0-1.0)",
+      "group1": "5.0 (3.0-6.0)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "<0.001"
+    },
+    {
+      "variable": "高营养不良风险（RFH-NPT≥2）",
+      "overall": "451 (51.1%)",
+      "group0": "0 (0.0%)",
+      "group1": "451 (100.0%)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "<0.001"
+    },
+    {
+      "variable": "MELD-Na评分",
+      "overall": "8.6 (5.1-11.6)",
+      "group0": "8.4 (5.4-10.7)",
+      "group1": "8.9 (5.0-12.7)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "0.032"
+    },
+    {
+      "variable": "白蛋白，g/L",
+      "overall": "30.0 (26.0-33.0)",
+      "group0": "31.0 (28.0-35.0)",
+      "group1": "28.0 (25.0-32.0)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "<0.001"
+    },
+    {
+      "variable": "血红蛋白，g/L",
+      "overall": "89.0 (70.0-108.0)",
+      "group0": "88.0 (70.0-109.5)",
+      "group1": "90.0 (70.0-107.8)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "0.845"
+    },
+    {
+      "variable": "住院天数",
+      "overall": "11.0 (7.0-14.0)",
+      "group0": "10.0 (7.0-14.0)",
+      "group1": "11.0 (8.0-15.0)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "0.013"
+    },
+    {
+      "variable": "病毒性病因",
+      "overall": "162 (18.3%)",
+      "group0": "108 (25.0%)",
+      "group1": "54 (12.0%)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "<0.001"
+    },
+    {
+      "variable": "酒精性病因",
+      "overall": "174 (19.7%)",
+      "group0": "31 (7.2%)",
+      "group1": "143 (31.7%)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "<0.001"
+    }
+  ],
+  "logistic": {
+    "unadjusted": [
+      {
+        "model": "未调整",
+        "term": "多重用药（≥5种）",
+        "or": 1.455,
+        "ci_low": 1.101,
+        "ci_high": 1.924,
+        "p_value": "0.008",
+        "n": 883
+      }
+    ],
+    "adjusted": [
+      {
+        "model": "多变量调整",
+        "term": "多重用药（≥5种）",
+        "or": 1.373,
+        "ci_low": 1.005,
+        "ci_high": 1.877,
+        "p_value": "0.047",
+        "n": 842
+      },
+      {
+        "model": "多变量调整",
+        "term": "年龄（每增加1岁）",
+        "or": 1.028,
+        "ci_low": 1.013,
+        "ci_high": 1.044,
+        "p_value": "<0.001",
+        "n": 842
+      },
+      {
+        "model": "多变量调整",
+        "term": "男性",
+        "or": 1.815,
+        "ci_low": 1.266,
+        "ci_high": 2.601,
+        "p_value": "0.001",
+        "n": 842
+      },
+      {
+        "model": "多变量调整",
+        "term": "BMI（每增加1 kg/m²）",
+        "or": 0.975,
+        "ci_low": 0.943,
+        "ci_high": 1.009,
+        "p_value": "0.149",
+        "n": 842
+      },
+      {
+        "model": "多变量调整",
+        "term": "MELD-Na（每增加1分）",
+        "or": 1.062,
+        "ci_low": 1.031,
+        "ci_high": 1.094,
+        "p_value": "<0.001",
+        "n": 842
+      },
+      {
+        "model": "多变量调整",
+        "term": "病因：未分类",
+        "or": 1.24,
+        "ci_low": 0.721,
+        "ci_high": 2.133,
+        "p_value": "0.438",
+        "n": 842
+      },
+      {
+        "model": "多变量调整",
+        "term": "病因：混合病因",
+        "or": 2.575,
+        "ci_low": 1.431,
+        "ci_high": 4.632,
+        "p_value": "0.002",
+        "n": 842
+      },
+      {
+        "model": "多变量调整",
+        "term": "病因：病毒性",
+        "or": 0.596,
+        "ci_low": 0.379,
+        "ci_high": 0.938,
+        "p_value": "0.025",
+        "n": 842
+      },
+      {
+        "model": "多变量调整",
+        "term": "病因：胆汁淤积性",
+        "or": 0.942,
+        "ci_low": 0.499,
+        "ci_high": 1.776,
+        "p_value": "0.853",
+        "n": 842
+      },
+      {
+        "model": "多变量调整",
+        "term": "病因：自身免疫性",
+        "or": 1.133,
+        "ci_low": 0.677,
+        "ci_high": 1.896,
+        "p_value": "0.634",
+        "n": 842
+      },
+      {
+        "model": "多变量调整",
+        "term": "病因：酒精性",
+        "or": 5.81,
+        "ci_low": 3.383,
+        "ci_high": 9.977,
+        "p_value": "<0.001",
+        "n": 842
+      }
+    ],
+    "adjusted_n": 842,
+    "adjustment": "年龄、性别、BMI、病因和MELD-Na",
+    "variance_estimator": "按患者聚类的稳健标准误",
+    "status": "ok"
+  },
+  "quality": {
+    "source_records": 892,
+    "source_patients": 651,
+    "excluded_age_ineligible": 6,
+    "under_18": 2,
+    "missing_age": 4,
+    "missing_rfh_npt": 3,
+    "missing_meld_na": 22,
+    "missing_bmi": 19,
+    "duplicate_records_removed": 0,
+    "medication_parse_confidence": {
+      "high": 859,
+      "low": 12,
+      "medium": 12
+    },
+    "manual_review_n": 24,
+    "meld_na_formula_checked": 861,
+    "meld_na_formula_mismatch": 0
+  }
+}
