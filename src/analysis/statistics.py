@@ -8,6 +8,8 @@ import pandas as pd
 from scipy import stats
 import statsmodels.api as sm
 
+from src.i18n import etiology_label, t
+
 
 def _p_text(value: float | None) -> str:
     if value is None or not np.isfinite(value):
@@ -48,30 +50,46 @@ def _categorical_p(df: pd.DataFrame, column: str, group: str) -> float:
     return float(stats.chi2_contingency(table.to_numpy(), correction=False).pvalue)
 
 
+def _variable_label(label_key: str, lang: str, polypharmacy_threshold: int, malnutrition_threshold: int) -> str:
+    if label_key == "var_polypharmacy":
+        return t(label_key, lang, threshold=polypharmacy_threshold)
+    if label_key == "var_high_malnutrition_risk":
+        return t(label_key, lang, threshold=malnutrition_threshold)
+    return t(label_key, lang)
+
+
 TABLE_VARIABLES = [
-    ("年龄，岁", "age", "continuous"),
-    ("男性", "sex", "male"),
-    ("BMI，kg/m²", "bmi", "continuous"),
-    ("用药数量，种", "medication_count", "continuous"),
-    ("多重用药（≥5种）", "polypharmacy", "binary"),
-    ("RFH-NPT评分", "rfh_npt", "continuous"),
-    ("高营养不良风险（RFH-NPT≥2）", "high_malnutrition_risk", "binary"),
-    ("MELD-Na评分", "meld_na", "continuous"),
-    ("白蛋白，g/L", "albumin_g_l", "continuous"),
-    ("血红蛋白，g/L", "hemoglobin", "continuous"),
-    ("住院天数", "length_of_stay", "continuous"),
-    ("病毒性病因", "etiology", "viral"),
-    ("酒精性病因", "etiology", "alcohol"),
+    ("var_age", "age", "continuous"),
+    ("var_male", "sex", "male"),
+    ("var_bmi", "bmi", "continuous"),
+    ("var_medication_count", "medication_count", "continuous"),
+    ("var_polypharmacy", "polypharmacy", "binary"),
+    ("var_rfh_npt", "rfh_npt", "continuous"),
+    ("var_high_malnutrition_risk", "high_malnutrition_risk", "binary"),
+    ("var_meld_na", "meld_na", "continuous"),
+    ("var_albumin", "albumin_g_l", "continuous"),
+    ("var_hemoglobin", "hemoglobin", "continuous"),
+    ("var_length_of_stay", "length_of_stay", "continuous"),
+    ("var_etiology_viral", "etiology", "viral"),
+    ("var_etiology_alcohol", "etiology", "alcohol"),
 ]
 
 
-def comparison_table(df: pd.DataFrame, group: str, labels: tuple[str, str]) -> list[dict]:
+def comparison_table(
+    df: pd.DataFrame,
+    group: str,
+    labels: tuple[str, str],
+    lang: str = "zh",
+    polypharmacy_threshold: int = 5,
+    malnutrition_threshold: int = 2,
+) -> list[dict]:
     result: list[dict] = []
     working = df[df[group].notna()].copy()
     working[group] = working[group].astype(bool)
-    for label, column, kind in TABLE_VARIABLES:
+    for label_key, column, kind in TABLE_VARIABLES:
         if column not in working:
             continue
+        label = _variable_label(label_key, lang, polypharmacy_threshold, malnutrition_threshold)
         if kind == "continuous":
             overall = _median_iqr(working[column])
             values = [_median_iqr(working.loc[working[group] == flag, column]) for flag in (False, True)]
@@ -142,7 +160,12 @@ def _fit_logistic(data: pd.DataFrame, columns: list[str], cluster_column: str | 
         return None, x
 
 
-def logistic_results(df: pd.DataFrame, cluster_by_patient: bool = False) -> dict:
+def logistic_results(
+    df: pd.DataFrame,
+    cluster_by_patient: bool = False,
+    lang: str = "zh",
+    polypharmacy_threshold: int = 5,
+) -> dict:
     data = df.copy()
     data["sex_male"] = data["sex"].eq("男").astype(float)
     cluster_column = "patient_id" if cluster_by_patient else None
@@ -150,23 +173,32 @@ def logistic_results(df: pd.DataFrame, cluster_by_patient: bool = False) -> dict
     adjusted_columns = ["polypharmacy", "age", "sex_male", "bmi", "etiology", "meld_na"]
     adjusted, adj_x = _fit_logistic(data, adjusted_columns, cluster_column)
 
-    def rows_for(model, x, model_name: str) -> list[dict]:
+    def rows_for(model, x, model_name_key: str) -> list[dict]:
         if model is None:
             return []
-        names = {
-            "polypharmacy": "多重用药（≥5种）", "age": "年龄（每增加1岁）",
-            "sex_male": "男性", "bmi": "BMI（每增加1 kg/m²）",
-            "meld_na": "MELD-Na（每增加1分）",
+        term_keys = {
+            "polypharmacy": "term_polypharmacy",
+            "age": "term_age",
+            "sex_male": "term_sex_male",
+            "bmi": "term_bmi",
+            "meld_na": "term_meld_na",
         }
         rows = []
         ci = model.conf_int()
         for term in model.params.index:
             if term == "const":
                 continue
-            label = names.get(term, term.replace("etiology_", "病因："))
+            if term in term_keys:
+                label = t(term_keys[term], lang, threshold=polypharmacy_threshold)
+            elif term.startswith("etiology_"):
+                raw = term.replace("etiology_", "")
+                label = t("term_etiology_prefix", lang) + etiology_label(raw, lang)
+            else:
+                label = term
             rows.append({
-                "model": model_name,
+                "model": t(model_name_key, lang),
                 "term": label,
+                "term_key": term if term != "const" else None,
                 "or": round(float(math.exp(model.params[term])), 3),
                 "ci_low": round(float(math.exp(ci.loc[term, 0])), 3),
                 "ci_high": round(float(math.exp(ci.loc[term, 1])), 3),
@@ -176,12 +208,12 @@ def logistic_results(df: pd.DataFrame, cluster_by_patient: bool = False) -> dict
         return rows
 
     return {
-        "unadjusted": rows_for(unadjusted, un_x, "未调整"),
-        "adjusted": rows_for(adjusted, adj_x, "多变量调整"),
+        "unadjusted": rows_for(unadjusted, un_x, "model_unadjusted"),
+        "adjusted": rows_for(adjusted, adj_x, "model_adjusted"),
         "adjusted_n": int(adjusted.nobs) if adjusted is not None else 0,
-        "adjustment": "年龄、性别、BMI、病因和MELD-Na",
-        "variance_estimator": "按患者聚类的稳健标准误" if cluster_by_patient else "常规模型标准误",
-        "status": "ok" if adjusted is not None else "模型未能收敛",
+        "adjustment": t("adjustment_factors", lang),
+        "variance_estimator": t("variance_cluster", lang) if cluster_by_patient else t("variance_standard", lang),
+        "status": "ok" if adjusted is not None else t("model_status_failed", lang),
     }
 
 

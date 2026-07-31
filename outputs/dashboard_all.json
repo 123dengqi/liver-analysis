@@ -1,15 +1,16 @@
 {
   "meta": {
+    "lang": "zh",
     "strategy": "all",
     "strategies": {
       "first": "首次住院记录",
       "latest": "末次住院记录",
-      "all": "全部住院记录"
+      "all": "全部住院记录（每行独立）"
     },
     "polypharmacy_definition": "出院药物种类≥5",
     "malnutrition_definition": "RFH-NPT≥2",
     "severity_measure": "MELD-Na评分",
-    "analysis_unit_note": "首次/末次策略每位患者仅保留一条记录；全部记录仅用于敏感性分析。"
+    "analysis_unit_note": "每条住院记录作为独立分析单元；首次/末次策略每位患者仅保留一条记录。"
   },
   "summary": {
     "n": 883,
@@ -302,10 +303,11 @@
       {
         "model": "未调整",
         "term": "多重用药（≥5种）",
+        "term_key": "polypharmacy",
         "or": 1.455,
-        "ci_low": 1.101,
-        "ci_high": 1.924,
-        "p_value": "0.008",
+        "ci_low": 1.11,
+        "ci_high": 1.908,
+        "p_value": "0.007",
         "n": 883
       }
     ],
@@ -313,15 +315,17 @@
       {
         "model": "多变量调整",
         "term": "多重用药（≥5种）",
+        "term_key": "polypharmacy",
         "or": 1.373,
-        "ci_low": 1.005,
-        "ci_high": 1.877,
-        "p_value": "0.047",
+        "ci_low": 1.006,
+        "ci_high": 1.873,
+        "p_value": "0.046",
         "n": 842
       },
       {
         "model": "多变量调整",
         "term": "年龄（每增加1岁）",
+        "term_key": "age",
         "or": 1.028,
         "ci_low": 1.013,
         "ci_high": 1.044,
@@ -331,26 +335,29 @@
       {
         "model": "多变量调整",
         "term": "男性",
+        "term_key": "sex_male",
         "or": 1.815,
-        "ci_low": 1.266,
-        "ci_high": 2.601,
-        "p_value": "0.001",
+        "ci_low": 1.273,
+        "ci_high": 2.586,
+        "p_value": "<0.001",
         "n": 842
       },
       {
         "model": "多变量调整",
         "term": "BMI（每增加1 kg/m²）",
+        "term_key": "bmi",
         "or": 0.975,
-        "ci_low": 0.943,
-        "ci_high": 1.009,
-        "p_value": "0.149",
+        "ci_low": 0.945,
+        "ci_high": 1.007,
+        "p_value": "0.131",
         "n": 842
       },
       {
         "model": "多变量调整",
         "term": "MELD-Na（每增加1分）",
+        "term_key": "meld_na",
         "or": 1.062,
-        "ci_low": 1.031,
+        "ci_low": 1.032,
         "ci_high": 1.094,
         "p_value": "<0.001",
         "n": 842
@@ -358,61 +365,67 @@
       {
         "model": "多变量调整",
         "term": "病因：未分类",
+        "term_key": "etiology_未分类",
         "or": 1.24,
-        "ci_low": 0.721,
-        "ci_high": 2.133,
-        "p_value": "0.438",
+        "ci_low": 0.698,
+        "ci_high": 2.203,
+        "p_value": "0.464",
         "n": 842
       },
       {
         "model": "多变量调整",
         "term": "病因：混合病因",
+        "term_key": "etiology_混合病因",
         "or": 2.575,
-        "ci_low": 1.431,
-        "ci_high": 4.632,
+        "ci_low": 1.434,
+        "ci_high": 4.621,
         "p_value": "0.002",
         "n": 842
       },
       {
         "model": "多变量调整",
         "term": "病因：病毒性",
+        "term_key": "etiology_病毒性",
         "or": 0.596,
-        "ci_low": 0.379,
-        "ci_high": 0.938,
-        "p_value": "0.025",
+        "ci_low": 0.374,
+        "ci_high": 0.952,
+        "p_value": "0.030",
         "n": 842
       },
       {
         "model": "多变量调整",
         "term": "病因：胆汁淤积性",
+        "term_key": "etiology_胆汁淤积性",
         "or": 0.942,
-        "ci_low": 0.499,
-        "ci_high": 1.776,
-        "p_value": "0.853",
+        "ci_low": 0.511,
+        "ci_high": 1.737,
+        "p_value": "0.848",
         "n": 842
       },
       {
         "model": "多变量调整",
         "term": "病因：自身免疫性",
+        "term_key": "etiology_自身免疫性",
         "or": 1.133,
-        "ci_low": 0.677,
-        "ci_high": 1.896,
-        "p_value": "0.634",
+        "ci_low": 0.691,
+        "ci_high": 1.857,
+        "p_value": "0.620",
         "n": 842
       },
       {
         "model": "多变量调整",
         "term": "病因：酒精性",
+        "term_key": "etiology_酒精性",
         "or": 5.81,
-        "ci_low": 3.383,
-        "ci_high": 9.977,
+        "ci_low": 3.355,
+        "ci_high": 10.06,
         "p_value": "<0.001",
         "n": 842
       }
     ],
     "adjusted_n": 842,
     "adjustment": "年龄、性别、BMI、病因和MELD-Na",
-    "variance_estimator": "按患者聚类的稳健标准误",
+    "variance_estimator": "常规模型标准误",
     "status": "ok"
   },
   "quality": {

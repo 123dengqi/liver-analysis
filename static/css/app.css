@@ -54,7 +54,7 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
   min-height: 64px;
   padding: 0 30px;
   display: grid;
-  grid-template-columns: 280px 1fr 220px;
+  grid-template-columns: 240px 1fr auto;
   align-items: center;
   gap: 22px;
   color: var(--ink);
@@ -91,9 +91,40 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 }
 .tab:hover { color: var(--ink); background: var(--surface-alt); }
 .tab.active { color: var(--accent-dark); border-bottom-color: var(--accent); font-weight: 700; }
+.topbar-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+.lang-toggle {
+  display: inline-flex;
+  padding: 2px;
+  background: var(--surface-alt);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.lang-btn {
+  min-width: 42px;
+  min-height: 32px;
+  padding: 0 10px;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+.lang-btn:hover { color: var(--ink); }
+.lang-btn.active {
+  color: var(--accent-dark);
+  background: var(--surface);
+  box-shadow: 0 1px 2px rgba(32, 38, 36, .08);
+}
 .strategy-control { display: flex; align-items: center; justify-content: flex-end; gap: 8px; color: var(--muted); font-size: 12px; }
 .strategy-control select {
-  width: 140px;
+  width: 168px;
   min-height: 36px;
   padding: 7px 28px 7px 10px;
   color: var(--ink);

@@ -14,7 +14,7 @@ class AnalysisConfig:
     polypharmacy_threshold: int = 5
     malnutrition_threshold: int = 2
     adult_age: int = 18
-    default_strategy: str = "first"
+    default_strategy: str = "all"
     output_dir: Path = ROOT / "outputs"
 
 

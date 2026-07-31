@@ -9,6 +9,7 @@ from src.analysis.statistics import age_group_summary, comparison_table, logisti
 from src.config import AnalysisConfig
 from src.data.cohort import enrich_registry, select_analysis_cohort
 from src.data.loader import load_registry
+from src.i18n import normalize_lang, t
 
 
 class DashboardService:
@@ -18,27 +19,55 @@ class DashboardService:
         self.enriched = enrich_registry(self.raw, config)
         self._cache: dict[str, dict] = {}
 
-    def build(self, strategy: str = "first") -> dict:
-        if strategy in self._cache:
-            return self._cache[strategy]
+    def build(self, strategy: str = "all", lang: str = "zh") -> dict:
+        lang = normalize_lang(lang)
+        cache_key = f"{strategy}:{lang}"
+        if cache_key in self._cache:
+            return self._cache[cache_key]
         cohort = select_analysis_cohort(self.enriched, strategy, self.config)
+        threshold = self.config.polypharmacy_threshold
+        mal_threshold = self.config.malnutrition_threshold
         payload = {
             "meta": {
+                "lang": lang,
                 "strategy": strategy,
-                "strategies": {"first": "首次住院记录", "latest": "末次住院记录", "all": "全部住院记录"},
-                "polypharmacy_definition": f"出院药物种类≥{self.config.polypharmacy_threshold}",
-                "malnutrition_definition": f"RFH-NPT≥{self.config.malnutrition_threshold}",
-                "severity_measure": "MELD-Na评分",
-                "analysis_unit_note": "首次/末次策略每位患者仅保留一条记录；全部记录仅用于敏感性分析。",
+                "strategies": {
+                    "first": t("strategy_first", lang),
+                    "latest": t("strategy_latest", lang),
+                    "all": t("strategy_all", lang),
+                },
+                "polypharmacy_definition": t("polypharmacy_definition", lang, threshold=threshold),
+                "malnutrition_definition": t("malnutrition_definition", lang, threshold=mal_threshold),
+                "severity_measure": t("severity_measure", lang),
+                "analysis_unit_note": t("analysis_unit_note", lang),
             },
             "summary": summary_metrics(cohort),
             "age_groups": age_group_summary(cohort),
-            "polypharmacy_table": comparison_table(cohort, "polypharmacy", ("非多重用药", "多重用药")),
-            "malnutrition_table": comparison_table(cohort, "high_malnutrition_risk", ("低风险", "高风险")),
-            "logistic": logistic_results(cohort, cluster_by_patient=(strategy == "all")),
+            "polypharmacy_table": comparison_table(
+                cohort,
+                "polypharmacy",
+                (t("group_no_polypharmacy", lang), t("group_polypharmacy", lang)),
+                lang=lang,
+                polypharmacy_threshold=threshold,
+                malnutrition_threshold=mal_threshold,
+            ),
+            "malnutrition_table": comparison_table(
+                cohort,
+                "high_malnutrition_risk",
+                (t("group_low_risk", lang), t("group_high_risk", lang)),
+                lang=lang,
+                polypharmacy_threshold=threshold,
+                malnutrition_threshold=mal_threshold,
+            ),
+            "logistic": logistic_results(
+                cohort,
+                cluster_by_patient=False,
+                lang=lang,
+                polypharmacy_threshold=threshold,
+            ),
             "quality": self.quality_summary(cohort),
         }
-        self._cache[strategy] = payload
+        self._cache[cache_key] = payload
         return payload
 
     def quality_summary(self, cohort: pd.DataFrame) -> dict:
@@ -65,11 +94,11 @@ class DashboardService:
         output_dir = self.config.output_dir
         output_dir.mkdir(parents=True, exist_ok=True)
         for strategy in ("first", "latest", "all"):
-            payload = self.build(strategy)
+            payload = self.build(strategy, lang="zh")
             with (output_dir / f"dashboard_{strategy}.json").open("w", encoding="utf-8") as handle:
                 json.dump(payload, handle, ensure_ascii=False, indent=2)
 
-        cohort = select_analysis_cohort(self.enriched, "first", self.config)
+        cohort = select_analysis_cohort(self.enriched, "all", self.config)
         anonymous_columns = [
             "patient_id", "source_row", "sex", "age", "bmi", "rfh_npt",
             "high_malnutrition_risk", "medication_count", "polypharmacy", "medication_names",
@@ -84,26 +113,26 @@ class DashboardService:
         cohort.loc[cohort["medication_parse_confidence"].ne("high"), review_columns].to_csv(
             output_dir / "medication_manual_review.csv", index=False, encoding="utf-8-sig"
         )
-        pd.DataFrame(self.build("first")["polypharmacy_table"]).to_csv(
+        pd.DataFrame(self.build("all", lang="zh")["polypharmacy_table"]).to_csv(
             output_dir / "table_polypharmacy.csv", index=False, encoding="utf-8-sig"
         )
-        pd.DataFrame(self.build("first")["malnutrition_table"]).to_csv(
+        pd.DataFrame(self.build("all", lang="zh")["malnutrition_table"]).to_csv(
             output_dir / "table_malnutrition.csv", index=False, encoding="utf-8-sig"
         )
-        logistic = self.build("first")["logistic"]
+        logistic = self.build("all", lang="zh")["logistic"]
         pd.DataFrame(logistic["unadjusted"] + logistic["adjusted"]).to_csv(
             output_dir / "logistic_regression.csv", index=False, encoding="utf-8-sig"
         )
         primary = next(
-            (row for row in logistic["adjusted"] if row["term"].startswith("多重用药")),
+            (row for row in logistic["adjusted"] if row.get("term_key") == "polypharmacy"),
             None,
         )
         unadjusted = logistic["unadjusted"][0] if logistic["unadjusted"] else None
-        summary = self.build("first")["summary"]
+        summary = self.build("all", lang="zh")["summary"]
         report_lines = [
             "# 主分析摘要",
             "",
-            "分析单元：每位成人患者首次有 RFH-NPT 记录的住院。",
+            "分析单元：每条住院记录均作为独立分析个体（全部住院记录口径）。",
             "",
             f"- 纳入患者：{summary['n']}例。",
             f"- 多重用药（出院药物≥{self.config.polypharmacy_threshold}种）：{summary['polypharmacy_n']}例（{summary['polypharmacy_pct']}%）。",
@@ -120,7 +149,7 @@ class DashboardService:
             )
         report_lines.extend([
             "",
-            "主分析中未调整关联有统计学意义，但多变量校正后未达到P<0.05，不能表述为独立危险因素。末次记录和全部记录口径仅作为敏感性分析。",
+            "主分析采用“每行独立个体”口径；结果表示关联而非因果，统计显著性需结合临床意义审慎解释。",
             "",
             "本分析为观察性研究，结果表示关联而非因果。药物自由文本的中低置信度记录应在论文定稿前人工复核。",
         ])

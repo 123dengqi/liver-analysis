@@ -1,15 +1,16 @@
 {
   "meta": {
+    "lang": "zh",
     "strategy": "latest",
     "strategies": {
       "first": "首次住院记录",
       "latest": "末次住院记录",
-      "all": "全部住院记录"
+      "all": "全部住院记录（每行独立）"
     },
     "polypharmacy_definition": "出院药物种类≥5",
     "malnutrition_definition": "RFH-NPT≥2",
     "severity_measure": "MELD-Na评分",
-    "analysis_unit_note": "首次/末次策略每位患者仅保留一条记录；全部记录仅用于敏感性分析。"
+    "analysis_unit_note": "每条住院记录作为独立分析单元；首次/末次策略每位患者仅保留一条记录。"
   },
   "summary": {
     "n": 646,
@@ -302,6 +303,7 @@
       {
         "model": "未调整",
         "term": "多重用药（≥5种）",
+        "term_key": "polypharmacy",
         "or": 1.528,
         "ci_low": 1.116,
         "ci_high": 2.093,
@@ -313,6 +315,7 @@
       {
         "model": "多变量调整",
         "term": "多重用药（≥5种）",
+        "term_key": "polypharmacy",
         "or": 1.476,
         "ci_low": 1.028,
         "ci_high": 2.118,
@@ -322,6 +325,7 @@
       {
         "model": "多变量调整",
         "term": "年龄（每增加1岁）",
+        "term_key": "age",
         "or": 1.037,
         "ci_low": 1.019,
         "ci_high": 1.055,
@@ -331,6 +335,7 @@
       {
         "model": "多变量调整",
         "term": "男性",
+        "term_key": "sex_male",
         "or": 2.027,
         "ci_low": 1.353,
         "ci_high": 3.037,
@@ -340,6 +345,7 @@
       {
         "model": "多变量调整",
         "term": "BMI（每增加1 kg/m²）",
+        "term_key": "bmi",
         "or": 0.974,
         "ci_low": 0.938,
         "ci_high": 1.012,
@@ -349,6 +355,7 @@
       {
         "model": "多变量调整",
         "term": "MELD-Na（每增加1分）",
+        "term_key": "meld_na",
         "or": 1.06,
         "ci_low": 1.027,
         "ci_high": 1.095,
@@ -358,6 +365,7 @@
       {
         "model": "多变量调整",
         "term": "病因：未分类",
+        "term_key": "etiology_未分类",
         "or": 1.031,
         "ci_low": 0.538,
         "ci_high": 1.975,
@@ -367,6 +375,7 @@
       {
         "model": "多变量调整",
         "term": "病因：混合病因",
+        "term_key": "etiology_混合病因",
         "or": 2.261,
         "ci_low": 1.104,
         "ci_high": 4.629,
@@ -376,6 +385,7 @@
       {
         "model": "多变量调整",
         "term": "病因：病毒性",
+        "term_key": "etiology_病毒性",
         "or": 0.628,
         "ci_low": 0.371,
         "ci_high": 1.062,
@@ -385,6 +395,7 @@
       {
         "model": "多变量调整",
         "term": "病因：胆汁淤积性",
+        "term_key": "etiology_胆汁淤积性",
         "or": 1.287,
         "ci_low": 0.638,
         "ci_high": 2.594,
@@ -394,6 +405,7 @@
       {
         "model": "多变量调整",
         "term": "病因：自身免疫性",
+        "term_key": "etiology_自身免疫性",
         "or": 1.035,
         "ci_low": 0.586,
         "ci_high": 1.828,
@@ -403,6 +415,7 @@
       {
         "model": "多变量调整",
         "term": "病因：酒精性",
+        "term_key": "etiology_酒精性",
         "or": 6.85,
         "ci_low": 3.445,
         "ci_high": 13.622,

@@ -12,6 +12,17 @@ def test_dashboard_endpoint():
     assert payload["meta"]["malnutrition_definition"] == "RFH-NPT≥2"
 
 
+def test_dashboard_english():
+    app = create_app()
+    client = app.test_client()
+    response = client.get("/api/dashboard?strategy=all&lang=en")
+    assert response.status_code == 200
+    payload = response.get_json()
+    assert payload["meta"]["lang"] == "en"
+    assert "Polypharmacy" in payload["logistic"]["adjusted"][0]["term"]
+    assert payload["meta"]["strategies"]["all"] == "All admissions (row-independent)"
+
+
 def test_invalid_strategy():
     app = create_app()
     response = app.test_client().get("/api/dashboard?strategy=bad")
@@ -23,5 +34,5 @@ def test_frontend_contains_interaction_controls():
     response = app.test_client().get("/")
     html = response.get_data(as_text=True)
     assert response.status_code == 200
-    for marker in ("table-search", "strategy-feedback", "retry", "aria-selected", "skip-link"):
+    for marker in ("table-search", "strategy-feedback", "retry", "aria-selected", "skip-link", "lang-btn"):
         assert marker in html

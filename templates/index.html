@@ -3,89 +3,95 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>肝硬化多重用药与营养不良分析</title>
+  <title data-i18n="page_title">肝硬化多重用药与营养不良分析</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
 </head>
 <body>
-  <a class="skip-link" href="#main-content">跳到主要内容</a>
+  <a class="skip-link" href="#main-content" data-i18n="skip_link">跳到主要内容</a>
   <header class="topbar">
     <div class="brand">
       <span class="brand-mark" aria-hidden="true">LC</span>
       <div>
-        <strong>肝硬化临床分析</strong>
-        <span>多重用药与营养不良风险</span>
+        <strong data-i18n="brand_title">肝硬化临床分析</strong>
+        <span data-i18n="brand_subtitle">多重用药与营养不良风险</span>
       </div>
     </div>
-    <nav class="tabs" aria-label="页面导航" role="tablist">
-      <button class="tab active" data-target="overview" role="tab" aria-selected="true" aria-controls="overview">研究概览</button>
-      <button class="tab" data-target="comparison" role="tab" aria-selected="false" aria-controls="comparison">分组比较</button>
-      <button class="tab" data-target="model" role="tab" aria-selected="false" aria-controls="model">回归模型</button>
-      <button class="tab" data-target="quality" role="tab" aria-selected="false" aria-controls="quality">数据质量</button>
+    <nav class="tabs" data-i18n-aria="nav_label" aria-label="页面导航" role="tablist">
+      <button class="tab active" data-target="overview" role="tab" aria-selected="true" aria-controls="overview" data-i18n="tab_overview">研究概览</button>
+      <button class="tab" data-target="comparison" role="tab" aria-selected="false" aria-controls="comparison" data-i18n="tab_comparison">分组比较</button>
+      <button class="tab" data-target="model" role="tab" aria-selected="false" aria-controls="model" data-i18n="tab_model">回归模型</button>
+      <button class="tab" data-target="quality" role="tab" aria-selected="false" aria-controls="quality" data-i18n="tab_quality">数据质量</button>
     </nav>
-    <label class="strategy-control">
-      <span>分析单元</span>
-      <select id="strategy" aria-describedby="strategy-feedback">
-        <option value="first">首次住院记录</option>
-        <option value="latest">末次住院记录</option>
-        <option value="all">全部住院记录</option>
-      </select>
-    </label>
+    <div class="topbar-controls">
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button type="button" class="lang-btn active" data-lang="zh">中文</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+      </div>
+      <label class="strategy-control">
+        <span data-i18n="strategy_label">分析单元</span>
+        <select id="strategy" aria-describedby="strategy-feedback">
+          <option value="first" data-i18n="strategy_first">首次住院记录</option>
+          <option value="latest" data-i18n="strategy_latest">末次住院记录</option>
+          <option value="all" data-i18n="strategy_all">全部住院记录</option>
+        </select>
+      </label>
+    </div>
   </header>
 
   <div id="feedback" class="feedback" role="status" aria-live="polite">
-    <span id="strategy-feedback">主分析采用每位患者首次住院记录</span>
-    <button id="retry" type="button" hidden>重新载入</button>
+    <span id="strategy-feedback" data-i18n="strategy_feedback_default">正在载入分析结果...</span>
+    <button id="retry" type="button" hidden data-i18n="retry">重新载入</button>
   </div>
 
   <main id="main-content" tabindex="-1">
     <section class="page-head">
       <div>
-        <p class="eyebrow">回顾性队列分析</p>
-        <h1>多重用药与高营养不良风险的关系</h1>
-        <p id="definitions" class="subtitle">正在载入分析口径...</p>
+        <p class="eyebrow" data-i18n="eyebrow_study">回顾性队列分析</p>
+        <h1 data-i18n="headline">多重用药与高营养不良风险的关系</h1>
+        <p id="definitions" class="subtitle" data-i18n="definitions_loading">正在载入分析口径...</p>
       </div>
-      <div class="status" id="connection-status"><span></span> 数据就绪</div>
+      <div class="status" id="connection-status"><span></span> <span data-i18n="status_ready">数据就绪</span></div>
     </section>
 
     <section id="overview" class="view active">
       <div id="metrics" class="metric-grid" aria-live="polite"></div>
       <div class="section-title">
-        <div><p class="eyebrow">图 1</p><h2>不同年龄组的用药与营养风险</h2></div>
+        <div><p class="eyebrow" data-i18n="figure_1">图 1</p><h2 data-i18n="figure_1_title">不同年龄组的用药与营养风险</h2></div>
         <p id="figure-note"></p>
       </div>
       <div class="chart-grid">
-        <article class="panel"><div class="panel-head"><h3>用药数量</h3><span id="p-medications"></span></div><div id="chart-medications" class="chart"></div></article>
-        <article class="panel"><div class="panel-head"><h3>多重用药率</h3><span id="p-polypharmacy"></span></div><div id="chart-polypharmacy" class="chart"></div></article>
-        <article class="panel"><div class="panel-head"><h3>高营养不良风险率</h3><span id="p-malnutrition"></span></div><div id="chart-malnutrition" class="chart"></div></article>
+        <article class="panel"><div class="panel-head"><h3 data-i18n="chart_medications">用药数量</h3><span id="p-medications"></span></div><div id="chart-medications" class="chart"></div></article>
+        <article class="panel"><div class="panel-head"><h3 data-i18n="chart_polypharmacy">多重用药率</h3><span id="p-polypharmacy"></span></div><div id="chart-polypharmacy" class="chart"></div></article>
+        <article class="panel"><div class="panel-head"><h3 data-i18n="chart_malnutrition">高营养不良风险率</h3><span id="p-malnutrition"></span></div><div id="chart-malnutrition" class="chart"></div></article>
       </div>
-      <div class="section-title"><div><p class="eyebrow">样本流程</p><h2>队列构建与完整性</h2></div></div>
+      <div class="section-title"><div><p class="eyebrow" data-i18n="cohort_flow_eyebrow">样本流程</p><h2 data-i18n="cohort_flow_title">队列构建与完整性</h2></div></div>
       <div id="cohort-flow" class="flow-grid"></div>
     </section>
 
     <section id="comparison" class="view">
-      <div class="section-title"><div><p class="eyebrow">表 2</p><h2>按多重用药及营养风险分组的临床特征</h2></div></div>
+      <div class="section-title"><div><p class="eyebrow" data-i18n="table_2">表 2</p><h2 data-i18n="table_2_title">按多重用药及营养风险分组的临床特征</h2></div></div>
       <div class="table-tools">
-        <div class="segmented" role="tablist" aria-label="分组方式">
-          <button class="segment active" data-table="polypharmacy" role="tab" aria-selected="true">按多重用药分组</button>
-          <button class="segment" data-table="malnutrition" role="tab" aria-selected="false">按营养风险分组</button>
+        <div class="segmented" role="tablist" data-i18n-aria="grouping_label" aria-label="分组方式">
+          <button class="segment active" data-table="polypharmacy" role="tab" aria-selected="true" data-i18n="segment_polypharmacy">按多重用药分组</button>
+          <button class="segment" data-table="malnutrition" role="tab" aria-selected="false" data-i18n="segment_malnutrition">按营养风险分组</button>
         </div>
-        <label class="search-control"><span>筛选指标</span><input id="table-search" type="search" placeholder="例如：MELD-Na" autocomplete="off"></label>
+        <label class="search-control"><span data-i18n="search_label">筛选指标</span><input id="table-search" type="search" data-i18n-placeholder="search_placeholder" placeholder="例如：MELD-Na" autocomplete="off"></label>
       </div>
       <div class="table-wrap"><table id="comparison-table"></table></div>
-      <p id="table-empty" class="empty-state" hidden>没有匹配的指标，请调整筛选词。</p>
-      <p class="table-note">连续变量为中位数（四分位距），分类变量为 n（%）。连续变量采用 Mann-Whitney U 检验，分类变量采用卡方或 Fisher 精确检验。</p>
+      <p id="table-empty" class="empty-state" hidden data-i18n="table_empty">没有匹配的指标，请调整筛选词。</p>
+      <p class="table-note" data-i18n="table_note">连续变量为中位数（四分位距），分类变量为 n（%）。连续变量采用 Mann-Whitney U 检验，分类变量采用卡方或 Fisher 精确检验。</p>
     </section>
 
     <section id="model" class="view">
-      <div class="section-title"><div><p class="eyebrow">表 3</p><h2>高营养不良风险的 Logistic 回归</h2></div><p id="model-note"></p></div>
+      <div class="section-title"><div><p class="eyebrow" data-i18n="table_3">表 3</p><h2 data-i18n="table_3_title">高营养不良风险的 Logistic 回归</h2></div><p id="model-note"></p></div>
       <div class="model-layout">
         <article class="panel forest-panel"><div id="forest-plot" class="forest"></div></article>
         <aside class="interpretation">
-          <p class="eyebrow">主要效应估计</p>
+          <p class="eyebrow" data-i18n="primary_estimate">主要效应估计</p>
           <div id="primary-estimate"></div>
           <div class="rule"></div>
-          <h3>模型说明</h3>
-          <p>结局变量为 RFH-NPT≥2；暴露变量为出院药物种类≥5。效应量为优势比（OR）及95%置信区间。</p>
+          <h3 data-i18n="model_explanation_title">模型说明</h3>
+          <p data-i18n="model_explanation">结局变量为 RFH-NPT≥2；暴露变量为出院药物种类≥5。效应量为优势比（OR）及95%置信区间。</p>
           <p id="complete-case-note"></p>
         </aside>
       </div>
@@ -93,23 +99,23 @@
     </section>
 
     <section id="quality" class="view">
-      <div class="section-title"><div><p class="eyebrow">数据审计</p><h2>数据质量与可复核输出</h2></div></div>
+      <div class="section-title"><div><p class="eyebrow" data-i18n="quality_eyebrow">数据审计</p><h2 data-i18n="quality_title">数据质量与可复核输出</h2></div></div>
       <div id="quality-grid" class="quality-grid"></div>
       <div class="downloads">
-        <div><h2>分析文件</h2><p>输出均不包含姓名，药物复核表使用哈希化患者编号。</p></div>
+        <div><h2 data-i18n="downloads_title">分析文件</h2><p data-i18n="downloads_note">输出均不包含姓名，药物复核表使用哈希化患者编号。</p></div>
         <div class="download-actions">
-          <a href="/downloads/analysis_cohort_anonymized.csv">分析数据</a>
-          <a href="/downloads/medication_manual_review.csv">药物复核表</a>
-          <a href="/downloads/table_polypharmacy.csv">多重用药表</a>
-          <a href="/downloads/table_malnutrition.csv">营养风险表</a>
-          <a href="/downloads/logistic_regression.csv">回归结果</a>
+          <a href="/downloads/analysis_cohort_anonymized.csv" data-i18n="dl_cohort">分析数据</a>
+          <a href="/downloads/medication_manual_review.csv" data-i18n="dl_review">药物复核表</a>
+          <a href="/downloads/table_polypharmacy.csv" data-i18n="dl_poly">多重用药表</a>
+          <a href="/downloads/table_malnutrition.csv" data-i18n="dl_mal">营养风险表</a>
+          <a href="/downloads/logistic_regression.csv" data-i18n="dl_logistic">回归结果</a>
         </div>
       </div>
-      <details class="method-warning"><summary>解释边界与使用提示</summary><p>本研究为回顾性观察性分析，回归结果表示关联而非因果。药物数量由出院带药自由文本自动解析，低/中置信度记录应在论文定稿前人工核对。</p></details>
+      <details class="method-warning"><summary data-i18n="warning_summary">解释边界与使用提示</summary><p data-i18n="warning_body">本研究为回顾性观察性分析，回归结果表示关联而非因果。药物数量由出院带药自由文本自动解析，低/中置信度记录应在论文定稿前人工核对。</p></details>
     </section>
   </main>
 
-  <div id="loading" class="loading" role="status" aria-live="polite"><span class="spinner" aria-hidden="true"></span><span>正在更新统计结果</span></div>
+  <div id="loading" class="loading" role="status" aria-live="polite"><span class="spinner" aria-hidden="true"></span><span data-i18n="loading">正在更新统计结果</span></div>
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>

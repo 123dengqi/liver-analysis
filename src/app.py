@@ -3,6 +3,7 @@ from __future__ import annotations
 from flask import Flask, jsonify, render_template, request, send_from_directory
 
 from src.config import CONFIG
+from src.i18n import normalize_lang
 from src.services.dashboard import DashboardService
 
 
@@ -18,9 +19,10 @@ def create_app() -> Flask:
     @app.get("/api/dashboard")
     def dashboard():
         strategy = request.args.get("strategy", CONFIG.default_strategy)
+        lang = normalize_lang(request.args.get("lang"))
         if strategy not in {"first", "latest", "all"}:
             return jsonify({"error": "strategy must be first, latest, or all"}), 400
-        return jsonify(service.build(strategy))
+        return jsonify(service.build(strategy, lang=lang))
 
     @app.get("/downloads/<path:filename>")
     def downloads(filename: str):
