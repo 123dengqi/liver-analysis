@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 
 from src.config import AnalysisConfig
+from src.data.diagnoses import extract_clinical_flags
 from src.data.medications import parse_medications
 
 
@@ -40,6 +41,9 @@ def enrich_registry(df: pd.DataFrame, config: AnalysisConfig) -> pd.DataFrame:
     enriched["high_malnutrition_risk"] = (enriched["rfh_npt"] >= config.malnutrition_threshold).astype("boolean")
     enriched.loc[enriched["rfh_npt"].isna(), "high_malnutrition_risk"] = pd.NA
     enriched["etiology"] = enriched.apply(_primary_etiology, axis=1)
+    flags = enriched.apply(extract_clinical_flags, axis=1, result_type="expand")
+    for column in flags.columns:
+        enriched[column] = flags[column]
     enriched["patient_id"] = enriched["patient_name"].map(_patient_id)
     enriched["age_group"] = pd.cut(
         enriched["age"], bins=[0, 49, 59, 69, np.inf],

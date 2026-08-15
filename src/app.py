@@ -29,6 +29,7 @@ def create_app() -> Flask:
         allowed = {
             "analysis_cohort_anonymized.csv", "medication_manual_review.csv",
             "table_polypharmacy.csv", "table_malnutrition.csv", "logistic_regression.csv",
+            "comorbidity_extraction.csv",
         }
         if filename not in allowed:
             return jsonify({"error": "file not available"}), 404

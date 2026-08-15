@@ -72,6 +72,13 @@ TABLE_VARIABLES = [
     ("var_length_of_stay", "length_of_stay", "continuous"),
     ("var_etiology_viral", "etiology", "viral"),
     ("var_etiology_alcohol", "etiology", "alcohol"),
+    ("var_ascites", "ascites", "binary"),
+    ("var_varices", "varices", "binary"),
+    ("var_hepatic_encephalopathy", "hepatic_encephalopathy", "binary"),
+    ("var_infection", "infection", "binary"),
+    ("var_diabetes", "diabetes", "binary"),
+    ("var_hypertension", "hypertension", "binary"),
+    ("var_coronary_heart_disease", "coronary_heart_disease", "binary"),
 ]
 
 
@@ -170,7 +177,11 @@ def logistic_results(
     data["sex_male"] = data["sex"].eq("男").astype(float)
     cluster_column = "patient_id" if cluster_by_patient else None
     unadjusted, un_x = _fit_logistic(data, ["polypharmacy"], cluster_column)
-    adjusted_columns = ["polypharmacy", "age", "sex_male", "bmi", "etiology", "meld_na"]
+    adjusted_columns = [
+        "polypharmacy", "age", "sex_male", "bmi", "etiology", "meld_na",
+        "ascites", "varices", "hepatic_encephalopathy", "infection",
+        "diabetes", "hypertension", "coronary_heart_disease",
+    ]
     adjusted, adj_x = _fit_logistic(data, adjusted_columns, cluster_column)
 
     def rows_for(model, x, model_name_key: str) -> list[dict]:
@@ -182,6 +193,13 @@ def logistic_results(
             "sex_male": "term_sex_male",
             "bmi": "term_bmi",
             "meld_na": "term_meld_na",
+            "ascites": "term_ascites",
+            "varices": "term_varices",
+            "hepatic_encephalopathy": "term_hepatic_encephalopathy",
+            "infection": "term_infection",
+            "diabetes": "term_diabetes",
+            "hypertension": "term_hypertension",
+            "coronary_heart_disease": "term_coronary_heart_disease",
         }
         rows = []
         ci = model.conf_int()
@@ -229,5 +247,9 @@ def summary_metrics(df: pd.DataFrame) -> dict:
         "malnutrition_pct": round(float(outcome.mean() * 100), 1),
         "medication_median": round(float(df["medication_count"].median()), 1),
         "meld_na_median": round(float(df["meld_na"].median()), 1),
-        "complete_case_n": int(df[["high_malnutrition_risk", "polypharmacy", "age", "sex", "bmi", "etiology", "meld_na"]].dropna().shape[0]),
+        "complete_case_n": int(df[[
+            "high_malnutrition_risk", "polypharmacy", "age", "sex", "bmi", "etiology", "meld_na",
+            "ascites", "varices", "hepatic_encephalopathy", "infection",
+            "diabetes", "hypertension", "coronary_heart_disease",
+        ]].dropna().shape[0]),
     }

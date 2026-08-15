@@ -50,6 +50,7 @@ const I18N = {
     dl_poly: "多重用药表",
     dl_mal: "营养风险表",
     dl_logistic: "回归结果",
+    dl_comorbidity: "合并症抽取表",
     warning_summary: "解释边界与使用提示",
     warning_body: "本研究为回顾性观察性分析，回归结果表示关联而非因果。药物数量由出院带药自由文本自动解析，低/中置信度记录应在论文定稿前人工核对。",
     loading: "正在更新统计结果",
@@ -99,6 +100,13 @@ const I18N = {
     quality_conf_medium: "药物解析中置信度",
     quality_conf_low: "药物解析低置信度",
     quality_meld_mismatch: "MELD-Na公式不一致 · 已核验 {n} 条",
+    quality_ascites: "腹水",
+    quality_varices: "静脉曲张",
+    quality_he: "肝性脑病",
+    quality_infection: "感染",
+    quality_diabetes: "糖尿病（出院诊断）",
+    quality_hypertension: "高血压（出院诊断）",
+    quality_chd: "冠状动脉性心脏病（出院诊断）",
   },
   en: {
     page_title: "Cirrhosis Polypharmacy & Malnutrition Analysis",
@@ -151,6 +159,7 @@ const I18N = {
     dl_poly: "Polypharmacy table",
     dl_mal: "Nutrition risk table",
     dl_logistic: "Regression results",
+    dl_comorbidity: "Comorbidity extraction",
     warning_summary: "Interpretation limits",
     warning_body: "This is a retrospective observational study; regression results indicate association, not causation. Medication counts are parsed from free text; low/medium confidence records should be manually verified before publication.",
     loading: "Updating statistics",
@@ -200,6 +209,13 @@ const I18N = {
     quality_conf_medium: "Medium-confidence medication parsing",
     quality_conf_low: "Low-confidence medication parsing",
     quality_meld_mismatch: "MELD-Na formula mismatch · checked {n}",
+    quality_ascites: "Ascites",
+    quality_varices: "Varices",
+    quality_he: "Hepatic encephalopathy",
+    quality_infection: "Infection",
+    quality_diabetes: "Diabetes (from diagnosis)",
+    quality_hypertension: "Hypertension (from diagnosis)",
+    quality_chd: "Coronary heart disease (from diagnosis)",
   },
 };
 
@@ -423,6 +439,13 @@ function renderQuality() {
     [confidence.medium || 0, tr("quality_conf_medium"), confidence.medium ? "warn" : ""],
     [confidence.low || 0, tr("quality_conf_low"), confidence.low ? "warn" : ""],
     [q.meld_na_formula_mismatch, tr("quality_meld_mismatch", { n: q.meld_na_formula_checked }), q.meld_na_formula_mismatch ? "warn" : ""],
+    [q.ascites_n || 0, tr("quality_ascites"), ""],
+    [q.varices_n || 0, tr("quality_varices"), ""],
+    [q.hepatic_encephalopathy_n || 0, tr("quality_he"), ""],
+    [q.infection_n || 0, tr("quality_infection"), ""],
+    [q.diabetes_n || 0, tr("quality_diabetes"), ""],
+    [q.hypertension_n || 0, tr("quality_hypertension"), ""],
+    [q.coronary_heart_disease_n || 0, tr("quality_chd"), ""],
   ];
   document.querySelector("#quality-grid").innerHTML = items.map(([value, label, cls]) =>
     `<div class="quality-item ${cls}"><strong>${value}</strong><span>${label}</span></div>`

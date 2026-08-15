@@ -177,6 +177,69 @@
       "group0_label": "非多重用药",
       "group1_label": "多重用药",
       "p_value": "0.816"
+    },
+    {
+      "variable": "腹水",
+      "overall": "381 (59.0%)",
+      "group0": "122 (44.0%)",
+      "group1": "259 (70.2%)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "<0.001"
+    },
+    {
+      "variable": "静脉曲张",
+      "overall": "460 (71.2%)",
+      "group0": "202 (72.9%)",
+      "group1": "258 (69.9%)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "0.404"
+    },
+    {
+      "variable": "肝性脑病",
+      "overall": "56 (8.7%)",
+      "group0": "20 (7.2%)",
+      "group1": "36 (9.8%)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "0.257"
+    },
+    {
+      "variable": "感染",
+      "overall": "68 (10.5%)",
+      "group0": "21 (7.6%)",
+      "group1": "47 (12.7%)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "0.035"
+    },
+    {
+      "variable": "糖尿病",
+      "overall": "160 (24.8%)",
+      "group0": "67 (24.2%)",
+      "group1": "93 (25.2%)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "0.767"
+    },
+    {
+      "variable": "高血压",
+      "overall": "186 (28.8%)",
+      "group0": "70 (25.3%)",
+      "group1": "116 (31.4%)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "0.087"
+    },
+    {
+      "variable": "冠状动脉性心脏病",
+      "overall": "66 (10.2%)",
+      "group0": "20 (7.2%)",
+      "group1": "46 (12.5%)",
+      "group0_label": "非多重用药",
+      "group1_label": "多重用药",
+      "p_value": "0.029"
     }
   ],
   "malnutrition_table": [
@@ -296,6 +359,69 @@
       "group0_label": "低风险",
       "group1_label": "高风险",
       "p_value": "<0.001"
+    },
+    {
+      "variable": "腹水",
+      "overall": "381 (59.0%)",
+      "group0": "136 (42.8%)",
+      "group1": "245 (74.7%)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "<0.001"
+    },
+    {
+      "variable": "静脉曲张",
+      "overall": "460 (71.2%)",
+      "group0": "238 (74.8%)",
+      "group1": "222 (67.7%)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "0.045"
+    },
+    {
+      "variable": "肝性脑病",
+      "overall": "56 (8.7%)",
+      "group0": "16 (5.0%)",
+      "group1": "40 (12.2%)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "0.001"
+    },
+    {
+      "variable": "感染",
+      "overall": "68 (10.5%)",
+      "group0": "27 (8.5%)",
+      "group1": "41 (12.5%)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "0.097"
+    },
+    {
+      "variable": "糖尿病",
+      "overall": "160 (24.8%)",
+      "group0": "71 (22.3%)",
+      "group1": "89 (27.1%)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "0.157"
+    },
+    {
+      "variable": "高血压",
+      "overall": "186 (28.8%)",
+      "group0": "84 (26.4%)",
+      "group1": "102 (31.1%)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "0.189"
+    },
+    {
+      "variable": "冠状动脉性心脏病",
+      "overall": "66 (10.2%)",
+      "group0": "26 (8.2%)",
+      "group1": "40 (12.2%)",
+      "group0_label": "低风险",
+      "group1_label": "高风险",
+      "p_value": "0.092"
     }
   ],
   "logistic": {
@@ -316,115 +442,185 @@
         "model": "多变量调整",
         "term": "多重用药（≥5种）",
         "term_key": "polypharmacy",
-        "or": 1.364,
-        "ci_low": 0.952,
-        "ci_high": 1.953,
-        "p_value": "0.090",
+        "or": 0.96,
+        "ci_low": 0.649,
+        "ci_high": 1.421,
+        "p_value": "0.840",
         "n": 614
       },
       {
         "model": "多变量调整",
         "term": "年龄（每增加1岁）",
         "term_key": "age",
-        "or": 1.035,
-        "ci_low": 1.018,
-        "ci_high": 1.053,
-        "p_value": "<0.001",
+        "or": 1.031,
+        "ci_low": 1.012,
+        "ci_high": 1.05,
+        "p_value": "0.001",
         "n": 614
       },
       {
         "model": "多变量调整",
         "term": "男性",
         "term_key": "sex_male",
-        "or": 1.764,
-        "ci_low": 1.181,
-        "ci_high": 2.636,
-        "p_value": "0.006",
+        "or": 1.759,
+        "ci_low": 1.153,
+        "ci_high": 2.683,
+        "p_value": "0.009",
         "n": 614
       },
       {
         "model": "多变量调整",
         "term": "BMI（每增加1 kg/m²）",
         "term_key": "bmi",
-        "or": 0.981,
-        "ci_low": 0.945,
-        "ci_high": 1.02,
-        "p_value": "0.336",
+        "or": 0.984,
+        "ci_low": 0.944,
+        "ci_high": 1.025,
+        "p_value": "0.436",
         "n": 614
       },
       {
         "model": "多变量调整",
         "term": "MELD-Na（每增加1分）",
         "term_key": "meld_na",
-        "or": 1.074,
-        "ci_low": 1.039,
-        "ci_high": 1.111,
+        "or": 1.058,
+        "ci_low": 1.021,
+        "ci_high": 1.097,
+        "p_value": "0.002",
+        "n": 614
+      },
+      {
+        "model": "多变量调整",
+        "term": "腹水",
+        "term_key": "ascites",
+        "or": 3.947,
+        "ci_low": 2.643,
+        "ci_high": 5.896,
         "p_value": "<0.001",
+        "n": 614
+      },
+      {
+        "model": "多变量调整",
+        "term": "静脉曲张",
+        "term_key": "varices",
+        "or": 0.814,
+        "ci_low": 0.534,
+        "ci_high": 1.24,
+        "p_value": "0.338",
+        "n": 614
+      },
+      {
+        "model": "多变量调整",
+        "term": "肝性脑病",
+        "term_key": "hepatic_encephalopathy",
+        "or": 1.44,
+        "ci_low": 0.683,
+        "ci_high": 3.036,
+        "p_value": "0.338",
+        "n": 614
+      },
+      {
+        "model": "多变量调整",
+        "term": "感染",
+        "term_key": "infection",
+        "or": 0.944,
+        "ci_low": 0.513,
+        "ci_high": 1.736,
+        "p_value": "0.853",
+        "n": 614
+      },
+      {
+        "model": "多变量调整",
+        "term": "糖尿病",
+        "term_key": "diabetes",
+        "or": 1.319,
+        "ci_low": 0.84,
+        "ci_high": 2.071,
+        "p_value": "0.229",
+        "n": 614
+      },
+      {
+        "model": "多变量调整",
+        "term": "高血压",
+        "term_key": "hypertension",
+        "or": 1.081,
+        "ci_low": 0.696,
+        "ci_high": 1.681,
+        "p_value": "0.728",
+        "n": 614
+      },
+      {
+        "model": "多变量调整",
+        "term": "冠状动脉性心脏病",
+        "term_key": "coronary_heart_disease",
+        "or": 1.065,
+        "ci_low": 0.562,
+        "ci_high": 2.019,
+        "p_value": "0.846",
         "n": 614
       },
       {
         "model": "多变量调整",
         "term": "病因：未分类",
         "term_key": "etiology_未分类",
-        "or": 0.993,
-        "ci_low": 0.512,
-        "ci_high": 1.925,
-        "p_value": "0.983",
+        "or": 0.862,
+        "ci_low": 0.429,
+        "ci_high": 1.728,
+        "p_value": "0.675",
         "n": 614
       },
       {
         "model": "多变量调整",
         "term": "病因：混合病因",
         "term_key": "etiology_混合病因",
-        "or": 2.006,
-        "ci_low": 0.998,
-        "ci_high": 4.03,
-        "p_value": "0.051",
+        "or": 1.653,
+        "ci_low": 0.786,
+        "ci_high": 3.478,
+        "p_value": "0.185",
         "n": 614
       },
       {
         "model": "多变量调整",
         "term": "病因：病毒性",
         "term_key": "etiology_病毒性",
-        "or": 0.508,
-        "ci_low": 0.299,
-        "ci_high": 0.862,
-        "p_value": "0.012",
+        "or": 0.464,
+        "ci_low": 0.265,
+        "ci_high": 0.81,
+        "p_value": "0.007",
         "n": 614
       },
       {
         "model": "多变量调整",
         "term": "病因：胆汁淤积性",
         "term_key": "etiology_胆汁淤积性",
-        "or": 0.962,
-        "ci_low": 0.47,
-        "ci_high": 1.971,
-        "p_value": "0.917",
+        "or": 0.884,
+        "ci_low": 0.413,
+        "ci_high": 1.889,
+        "p_value": "0.750",
         "n": 614
       },
       {
         "model": "多变量调整",
         "term": "病因：自身免疫性",
         "term_key": "etiology_自身免疫性",
-        "or": 0.866,
-        "ci_low": 0.487,
-        "ci_high": 1.541,
-        "p_value": "0.625",
+        "or": 0.846,
+        "ci_low": 0.456,
+        "ci_high": 1.57,
+        "p_value": "0.596",
         "n": 614
       },
       {
         "model": "多变量调整",
         "term": "病因：酒精性",
         "term_key": "etiology_酒精性",
-        "or": 5.396,
-        "ci_low": 2.796,
-        "ci_high": 10.416,
+        "or": 5.183,
+        "ci_low": 2.57,
+        "ci_high": 10.456,
         "p_value": "<0.001",
         "n": 614
       }
     ],
     "adjusted_n": 614,
-    "adjustment": "年龄、性别、BMI、病因和MELD-Na",
+    "adjustment": "年龄、性别、BMI、病因、MELD-Na、并发症（腹水、静脉曲张、肝性脑病、感染）和合并症（糖尿病、高血压、冠状动脉性心脏病）",
     "variance_estimator": "常规模型标准误",
     "status": "ok"
   },
@@ -445,6 +641,13 @@
     },
     "manual_review_n": 18,
     "meld_na_formula_checked": 626,
-    "meld_na_formula_mismatch": 0
+    "meld_na_formula_mismatch": 0,
+    "ascites_n": 381,
+    "varices_n": 460,
+    "hepatic_encephalopathy_n": 56,
+    "infection_n": 68,
+    "diabetes_n": 160,
+    "hypertension_n": 186,
+    "coronary_heart_disease_n": 66
   }
 }

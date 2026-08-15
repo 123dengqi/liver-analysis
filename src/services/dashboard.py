@@ -88,6 +88,13 @@ class DashboardService:
             "manual_review_n": int(cohort["medication_parse_confidence"].ne("high").sum()),
             "meld_na_formula_checked": int(formula_checked),
             "meld_na_formula_mismatch": formula_mismatch,
+            "ascites_n": int(cohort["ascites"].sum()),
+            "varices_n": int(cohort["varices"].sum()),
+            "hepatic_encephalopathy_n": int(cohort["hepatic_encephalopathy"].sum()),
+            "infection_n": int(cohort["infection"].sum()),
+            "diabetes_n": int(cohort["diabetes"].sum()),
+            "hypertension_n": int(cohort["hypertension"].sum()),
+            "coronary_heart_disease_n": int(cohort["coronary_heart_disease"].sum()),
         }
 
     def export_outputs(self) -> None:
@@ -104,6 +111,8 @@ class DashboardService:
             "high_malnutrition_risk", "medication_count", "polypharmacy", "medication_names",
             "medication_parse_confidence", "medication_review_reason", "etiology", "meld",
             "meld_na", "albumin_g_l", "hemoglobin", "length_of_stay", "admission_date",
+            "ascites", "varices", "hepatic_encephalopathy", "infection",
+            "diabetes", "hypertension", "coronary_heart_disease", "comorbidity_evidence",
         ]
         cohort[anonymous_columns].to_csv(output_dir / "analysis_cohort_anonymized.csv", index=False, encoding="utf-8-sig")
         review_columns = [
@@ -112,6 +121,14 @@ class DashboardService:
         ]
         cohort.loc[cohort["medication_parse_confidence"].ne("high"), review_columns].to_csv(
             output_dir / "medication_manual_review.csv", index=False, encoding="utf-8-sig"
+        )
+        comorbidity_columns = [
+            "patient_id", "source_row", "diagnosis",
+            "ascites", "varices", "hepatic_encephalopathy", "infection",
+            "diabetes", "hypertension", "coronary_heart_disease", "comorbidity_evidence",
+        ]
+        cohort[comorbidity_columns].to_csv(
+            output_dir / "comorbidity_extraction.csv", index=False, encoding="utf-8-sig"
         )
         pd.DataFrame(self.build("all", lang="zh")["polypharmacy_table"]).to_csv(
             output_dir / "table_polypharmacy.csv", index=False, encoding="utf-8-sig"
@@ -128,7 +145,9 @@ class DashboardService:
             None,
         )
         unadjusted = logistic["unadjusted"][0] if logistic["unadjusted"] else None
-        summary = self.build("all", lang="zh")["summary"]
+        payload = self.build("all", lang="zh")
+        summary = payload["summary"]
+        quality = payload["quality"]
         report_lines = [
             "# 主分析摘要",
             "",
@@ -145,12 +164,15 @@ class DashboardService:
             )
         if primary:
             report_lines.append(
-                f"- 调整年龄、性别、BMI、病因和MELD-Na后：OR={primary['or']}，95%CI {primary['ci_low']}-{primary['ci_high']}，P={primary['p_value']}。"
+                f"- 调整年龄、性别、BMI、病因、MELD-Na、并发症和合并症后：OR={primary['or']}，95%CI {primary['ci_low']}-{primary['ci_high']}，P={primary['p_value']}。"
             )
         report_lines.extend([
             "",
+            f"- 并发症：腹水{quality['ascites_n']}例，静脉曲张{quality['varices_n']}例，肝性脑病{quality['hepatic_encephalopathy_n']}例，感染{quality['infection_n']}例。",
+            f"- 合并症（出院诊断抽取）：糖尿病{quality['diabetes_n']}例，高血压{quality['hypertension_n']}例，冠状动脉性心脏病{quality['coronary_heart_disease_n']}例。",
+            "",
             "主分析采用“每行独立个体”口径；结果表示关联而非因果，统计显著性需结合临床意义审慎解释。",
             "",
-            "本分析为观察性研究，结果表示关联而非因果。药物自由文本的中低置信度记录应在论文定稿前人工复核。",
+            "本分析为观察性研究，结果表示关联而非因果。药物自由文本的中低置信度记录应在论文定稿前人工复核。合并症由出院诊断文本抽取，建议对照 comorbidity_extraction.csv 复核。",
         ])
         (output_dir / "主分析摘要.md").write_text("\n".join(report_lines), encoding="utf-8")
